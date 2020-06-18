@@ -42,39 +42,41 @@ class Controller extends Package
 
     public function on_start()
     {
-        $assetList = AssetList::getInstance();
-        $assetList->register(
-            'javascript',
-            'editor/ckeditor4/templates',
-            'js/register.js',
-            [],
-            $this->getPackageHandle()
-        );
+        if (!Application::isRunThroughCommandLineInterface()) {
+            $assetList = AssetList::getInstance();
+            $assetList->register(
+                'javascript',
+                'editor/ckeditor4/templates',
+                'js/register.js',
+                [],
+                $this->getPackageHandle()
+            );
 
-        /** @var EditorInterface $editor */
-        $editor = $this->app->make(EditorInterface::class);
-        $pluginManager = $editor->getPluginManager();
-        try {
-            $plugin = new Plugin();
-            $plugin->setKey('templates');
-            $plugin->setName(t('Templates'));
-            $plugin->requireAsset('javascript', 'editor/ckeditor4/templates');
-            $pluginManager->register($plugin);
-        } catch (\Exception $e) {
-        }
-
-        /** @var Liaison $config */
-        $config = $this->app->make('site')->getDefault()->getConfigRepository();
-        $templates_files = $config->get('editor.ckeditor4.custom_config_options.templates_files', []);
-        if (count($templates_files) === 0) {
-            $activeTheme = Theme::getSiteTheme();
-            $template_file_path = $activeTheme->getThemeURL() . '/templates.js';
-            if (file_exists(DIR_BASE . $template_file_path)) {
-                $templates_files[] = $template_file_path;
-            } else {
-                $templates_files[] = $this->getRelativePath() . '/js/templates/templates/default.js';
+            /** @var EditorInterface $editor */
+            $editor = $this->app->make(EditorInterface::class);
+            $pluginManager = $editor->getPluginManager();
+            try {
+                $plugin = new Plugin();
+                $plugin->setKey('templates');
+                $plugin->setName(t('Templates'));
+                $plugin->requireAsset('javascript', 'editor/ckeditor4/templates');
+                $pluginManager->register($plugin);
+            } catch (\Exception $e) {
             }
+
+            /** @var Liaison $config */
+            $config = $this->app->make('site')->getDefault()->getConfigRepository();
+            $templates_files = $config->get('editor.ckeditor4.custom_config_options.templates_files', []);
+            if (count($templates_files) === 0) {
+                $activeTheme = Theme::getSiteTheme();
+                $template_file_path = $activeTheme->getThemeURL() . '/templates.js';
+                if (file_exists(DIR_BASE . $template_file_path)) {
+                    $templates_files[] = $template_file_path;
+                } else {
+                    $templates_files[] = $this->getRelativePath() . '/js/templates/templates/default.js';
+                }
+            }
+            $config->set('editor.ckeditor4.custom_config_options.templates_files', $templates_files);
         }
-        $config->set('editor.ckeditor4.custom_config_options.templates_files', $templates_files);
     }
 }
