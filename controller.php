@@ -69,7 +69,7 @@ class Controller extends Package
             $templates_files = $config->get('editor.ckeditor4.custom_config_options.templates_files', []);
             if (count($templates_files) === 0) {
                 $activeTheme = Theme::getSiteTheme();
-                $template_file_path = $activeTheme->getThemeURL() . '/templates.js';
+                $template_file_path = str_replace(DIR_REL, '', $activeTheme->getThemeURL() . '/templates.js');
                 if (file_exists(DIR_BASE . $template_file_path)) {
                     $templates_files[] = $template_file_path;
                 } else {
