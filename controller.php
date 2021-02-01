@@ -1,6 +1,7 @@
 <?php
 namespace Concrete\Package\CkeditorTemplates;
 
+use Concrete\Core\Application\Application;
 use Concrete\Core\Asset\AssetList;
 use Concrete\Core\Editor\EditorInterface;
 use Concrete\Core\Editor\Plugin;
