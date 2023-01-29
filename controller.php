@@ -12,7 +12,7 @@ use Concrete\Core\Site\Config\Liaison;
 class Controller extends Package
 {
     protected $pkgHandle = 'ckeditor_templates';
-    protected $pkgVersion = '0.1.1';
+    protected $pkgVersion = '0.1.2';
     protected $appVersionRequired = '8.0';
 
     /**
