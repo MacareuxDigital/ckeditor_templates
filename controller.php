@@ -12,7 +12,7 @@ use Concrete\Core\Site\Config\Liaison;
 class Controller extends Package
 {
     protected $pkgHandle = 'ckeditor_templates';
-    protected $pkgVersion = '0.1.2';
+    protected $pkgVersion = '0.1.3';
     protected $appVersionRequired = '8.0';
 
     /**
@@ -66,7 +66,7 @@ class Controller extends Package
             }
 
             /** @var Liaison $config */
-            $config = $this->app->make('site')->getDefault()->getConfigRepository();
+            $config = $this->app->make('site')->getSite()->getConfigRepository();
             $templates_files = $config->get('editor.ckeditor4.custom_config_options.templates_files', []);
             if (count($templates_files) === 0) {
                 $activeTheme = Theme::getSiteTheme();
